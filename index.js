@@ -1,3 +1,4 @@
+require('dotenv').config(); // Load environment variables from .env file
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -6,9 +7,12 @@ const app = express();
 const port = 3000;
 
 // MongoDB connection
-mongoose.connect('mongodb+srv://adityasingh3210:on6XLyO7hCIWNRFo@cluster0.iozcvig.mongodb.net/?retryWrites=true&w=majority&appName=CounterApp', { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoURI = process.env.MONGODB_URI; // Use the environment variable
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(cors());
+app.use(express.json()); // Ensure you have body parser middleware for POST requests
+
 // Define Counter schema and model
 const counterSchema = new mongoose.Schema({
   value: { type: Number, default: 0 }
